@@ -60,15 +60,17 @@ to connect to a MySQL database running locally on your machine.
 DIFFERENT PARTS: TO UNDERSTAND CLASS AND WHICH SHUD BE A PROPERTY OF OTHER CLASSES
 
 
-USER -- (CLASS)
+USER -- (CLASS) -- database table
  --role (student,code reviewer, Administrator )
  --cohortStartDate
+ --assignments :List<Assignments>
   
- assignment - CLASS
-  --status(pending,submitted,in review,needs updated,completed)
-  --githubURL
-  --branch
-  --codeVideoURL
+ assignment - CLASS -- database table
+  --status(pending,submitted,in review,needs updated,completed) : String
+  --githubURL : String
+  --branch: String
+  --codeVideoURL :String
+  --assignedTo : User
   
 
  emailnotificationService -- CLASS
@@ -82,10 +84,15 @@ USER -- (CLASS)
   --createUser
 
 
-  
+ [ 1 user can have many assignments
+  1 assignment can have many users
+
+  1... * and * ...1 ---> *...* ]
  
  
- 
+--> consider both the  classes to get the relations ### --> @shaanpradeep
+
+
  
  
  
