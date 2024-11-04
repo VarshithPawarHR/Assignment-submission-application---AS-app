@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import { Addnote } from "../component/Addnote";
 import "../index.css"; // Assuming your global styles are still needed
 
 export const Card = ({ id, title, desc, date }) => {
-  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
