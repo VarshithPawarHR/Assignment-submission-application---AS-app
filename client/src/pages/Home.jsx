@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "../component/Card";
+import Card from "../component/Card";
 import { Navbar } from "../component/Navbar";
 import Spline from "@splinetool/react-spline";
 
