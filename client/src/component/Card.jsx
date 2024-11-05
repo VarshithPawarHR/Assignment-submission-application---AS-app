@@ -5,7 +5,8 @@ import { Addnote } from "../component/Addnote";
 const Card = ({ id, title, desc, date }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [important, setImportant] = useState(false);
-  const [showEdit, setShowEdit] = useState(false); // State for edit modal
+  const [showEdit, setShowEdit] = useState(false);
+  const [assignmentLink, setAssignmentLink] = useState(""); // State for edit modal
   const data = { id, title, desc };
   const handleCloseEdit = () => setShowEdit(false);
   const handleShowEdit = () => setShowEdit(true);
@@ -50,11 +51,16 @@ const Card = ({ id, title, desc, date }) => {
   };
 
   // Prepare mailto link with dynamic "To" address
-  const mailtoLink = `mailto:${toEmail}?subject=Assignment Submission: ${title}&body=${encodeURIComponent(
-    `Assignment Details: ${desc}`
-  )}`;
 
   const handleEmailSend = () => {
+    // Include assignment link in the email body
+    const body = `Assignment Details: ${desc}\nAssignment Link: ${assignmentLink}`;
+
+    // Prepare mailto link with dynamic "To" address and updated body
+    const mailtoLink = `mailto:${toEmail}?subject=Assignment Submission: ${title}&body=${encodeURIComponent(
+      body
+    )}`;
+
     window.open(mailtoLink); // Open in new tab
     handlePopupClose(); // Close the modal
     setEmailSent(true); // Mark email as sent
@@ -85,7 +91,7 @@ const Card = ({ id, title, desc, date }) => {
                 {truncateDescription(desc, 25)} {/* Truncate the description */}
               </p>
             </div>
-            <div className="flex items-center justify-start gap-1">
+            <div className="flex items-center justify-start gap-3 ">
               <span
                 className={`m-1 cursor-pointer transition-colors ${
                   important ? "text-yellow-400" : "text-gray-500"
@@ -107,17 +113,16 @@ const Card = ({ id, title, desc, date }) => {
               >
                 <i className="fa-solid fa-pen-to-square" />
               </span>
-
-              <button
-                className={`mt-4 px-4 py-2 rounded ${
-                  emailSent ? "bg-gray-500" : "bg-green-600 hover:bg-green-500"
-                } text-white transition`}
-                onClick={emailSent ? null : handleSubmitAssignment}
-                disabled={emailSent} // Disable button if email is sent
-              >
-                {emailSent ? "Submitted" : "Submit Assignment"}
-              </button>
             </div>
+            <button
+              className={`mt-4 px-4 py-2 rounded ${
+                emailSent ? "bg-gray-500" : "bg-green-600 hover:bg-green-500"
+              } text-white transition`}
+              onClick={emailSent ? null : handleSubmitAssignment}
+              disabled={emailSent} // Disable button if email is sent
+            >
+              {emailSent ? "Submitted" : "Submit Assignment"}
+            </button>
           </div>
         </div>
       </div>
@@ -141,6 +146,16 @@ const Card = ({ id, title, desc, date }) => {
                 type="email"
                 value={toEmail}
                 onChange={(e) => setToEmail(e.target.value)}
+                required
+                className="bg-gray-700 p-2 rounded w-full mt-1"
+              />
+            </label>
+            <label className="block mb-2">
+              Assignment Link:
+              <input
+                type="url"
+                value={assignmentLink}
+                onChange={(e) => setAssignmentLink(e.target.value)}
                 required
                 className="bg-gray-700 p-2 rounded w-full mt-1"
               />
